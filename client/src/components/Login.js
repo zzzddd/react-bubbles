@@ -11,17 +11,19 @@ const Login = props => {
     const login = e => {
       e.preventDefault();
       axiosWithAuth()
-        .post("/api/login", form)
+        .post("/login", form)
         .then(res => {
           console.log(res);
           localStorage.setItem("token", res.data.payload);
-          props.history.push("/");
+          props.history.push("/bubblepage");
+          setForm({ username: "", password: "" });
         })
         .catch(err => {
           console.log(err.response);
           setForm({ username: "", password: "" });
         });
     };
+  // if (localStorage.getItem("token")) return <Redirect to="/bubblepage" />;
 
   return (
     <>
@@ -29,11 +31,13 @@ const Login = props => {
         <h1>Welcome to the Bubble App!</h1>
         <p>Build a login page here</p>
         {/* username */}
+
         <input
           type="text"
           name="username"
           onChange={handleChanges}
           value={form.username}
+          placeholder="Enter user name"
         />
 
         {/* password */}
@@ -42,6 +46,7 @@ const Login = props => {
           name="password"
           onChange={handleChanges}
           value={form.password}
+          placeholder="Enter password"
         />
 
         {/* Submit button */}
